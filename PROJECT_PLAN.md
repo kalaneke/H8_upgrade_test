@@ -77,19 +77,20 @@ num=NULL 表示为空、该设备没有该模块。
 
 #### 5.1.3 云端版本读取
 
-- 通过解析VER.DAT找到对应GitHub 中的 `产品名-Ve.json`
+- 通过解析对应GitHub 中的 `产品名-Ver.json`
 - 解析 `release_time`发布时间（世界时）、 `G_version`升级包总版本号、`resources` 总升级资源包的大小和下载路径、`IAP_modules`iap各升级模块详细信息等
 - 获取当前最新版本号及资源清单
   `产品名-Ver.json`格式如下：
 
 ```json
+{
 "product": "H8-AP_MAX",
 "release_time":"2026-04-20T10:30:00Z",
 "G_version":"V0.0.1",
 "G_resources":{
   "name":"V0.0.1-H8-AP_MAX.zip",
   "size":"4973Kb",
-  "url":""
+  "url":"https://github.com/kalaneke/H8_upgrade_test/releases/tag/V0.0.1-H8-AP_MAX"
 },
 "IAP_modules": [
     {
@@ -148,6 +149,7 @@ num=NULL 表示为空、该设备没有该模块。
       "version": "A2.64.20.8A",
       "file": "AP-MAX风扇板_A264208A.iap"
     }
+]
 }
 ```
 
