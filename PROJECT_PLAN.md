@@ -88,7 +88,7 @@ num=NULL 表示为空、该设备没有该模块。
 "release_time":"2026-04-20T10:30:00Z",
 "G_version":"V0.0.1",
 "G_resources":{
-  "name":"V0.0.1-H8-AP_MAX.zip",
+  "zip_name":"V0.0.1-H8-AP_MAX.zip",
   "size":"4973Kb",
   "url":"https://github.com/kalaneke/H8_upgrade_test/releases/tag/V0.0.1-H8-AP_MAX"
 },
@@ -157,15 +157,18 @@ num=NULL 表示为空、该模块无对应的iap升级文件。
 
 #### 5.1.4 版本对比与升级决定
 
+- github-url：https://github.com/kalaneke/H8_upgrade_test
+- 根据U盘下的`IAP/VER.DAT`获取对应的设备名称，在 github-url 下获取对应的设备名称版本文件 `产品名-Ver.json`
 - 比较本地软件版本与云端最新版本主要通过比较总版本号（SemVer格式）
 - 判断 IAP 文件和 RES 文件是否需要更新
 - 生成升级清单，包括需要下载的文件和复制路径
 
 #### 5.1.5 升级包下载与解压
 
-- 从 GitHub 下载最新发布包（例如 `releases/v2.2.0.zip`）
+- 从`产品名-Ver.json`解析对应的压缩包地址，下载最新发布包（例如 `releases/vx.x.x产品名称zip`）
+- 下载时获取对应的sha256
 - 下载后解压到临时目录
-- 验证文件完整性（可选：MD5/SHA256）
+- 验证文件完整性（SHA256）
 
 #### 5.1.6 文件复制与更新
 
