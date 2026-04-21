@@ -1,66 +1,73 @@
-{"product": "H8-AP_MAX",
+{"Model": "H8",
 "release_time": "2026-04-20T10:30:00Z",
 "G_version": "V0.0.1",
 "G_resources": {
-    "name": "V0.0.1-H8-AP_MAX.zip",
+    "name": "V0.0.1-H8.zip",
     "size": "4.85Mb",
-    "url": "https://github.com/kalaneke/H8_upgrade_test/releases/tag/V0.0.1-H8-AP_MAX"
+    "url": "https://github.com/kalaneke/H8_upgrade_test/releases/tag/V0.0.1-H8"
 },
 "IAP_modules": [
     {
         "id": 1,
-        "name": "remote_control",
+        "name": "RemoteControl",
         "display": "遥控器主板",
-        "version": "A3.63.25.A1",
+        "latest_version": "A3.63.25.A1",
         "file": "H8显示屏_A36325A1(all).iap"
     },
     {
         "id": 2,
-        "name": "RF_host",
+        "name": "Wireless_host",
         "display": "无线模块（主）",
-        "version": "A3.63.13.9D",
+        "latest_version": "A3.63.13.9D",
         "file": "主_24G模块_A363139D.iap"
     },
     {
         "id": 3,
-        "name": "RF_slave",
+        "name": "Wireless_slave",
         "display": "无线模块（从）",
-        "version": "A3.63.13.9D",
+        "latest_version": "A3.63.13.9D",
         "file": "从_24G模块_A363139D.iap"
     },
     {
         "id": 4,
-        "name": "sonar",
+        "name": "Sonar",
         "display": "声呐模块",
-        "version": "A3.63.25.A1",
+        "latest_version": "A3.63.25.A1",
         "file": "AP-MAX声呐板_A36325A1.iap"
     },
     {
         "id": 5,
-        "name": "boat_mainboard",
+        "name": "Boat",
         "display": "船控主板",
-        "version": "A3.63.27.92",
+        "latest_version": "A3.63.27.92",
         "file": "AP-MAX船主板_A3632792.iap"
     },
     {
         "id": 6,
-        "name": "gps",
+        "name": "GPS",
         "display": "GPS模块",
-        "version": null,
+        "latest_version": "A2.63.16.8C",
         "file": null
     },
     {
         "id": 7,
-        "name": "esc",
-        "display": "电调模块",
-        "version": null,
+        "name": "Motor_L",
+        "display": "左电调",
+        "latest_version": "A3.63.27.92",
         "file": null
     },
     {
         "id": 8,
-        "name": "fan",
+        "name": "Motor_R",
+        "display": "右电调",
+        "latest_version": "A3.63.27.92",
+        "file": null
+    },
+    {
+        "id": 9,
+        "name": "Fan",
         "display": "风扇模块",
-        "version": "A2.64.20.8A",
+        "latest_version": "A2.64.20.8A",
         "file": "AP-MAX风扇板_A264208A.iap"
     }
 ]
