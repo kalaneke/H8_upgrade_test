@@ -1,5 +1,5 @@
 {"Model": "H8",
-"release_time": "2026-04-20T10:30:00Z",
+"release_time": "2026-04-25T10:30:00Z",
 "G_version": "v0.0.1",
 "G_resources": {
     "name": "V0.0.1-H8.zip",
@@ -11,8 +11,8 @@
         "id": 1,
         "name": "RemoteControl",
         "display": "遥控器主板",
-        "latest_version": "A3.63.25.A1",
-        "file": "H8显示屏_A36325A1(all).iap"
+        "latest_version": "A3.64.11.6E",
+        "file": "H8显示屏_A364116E(disk).iap"
     },
     {
         "id": 2,
@@ -39,36 +39,36 @@
         "id": 5,
         "name": "Boat",
         "display": "船控主板",
-        "latest_version": "A3.63.27.92",
-        "file": "AP-MAX船主板_A3632792.iap"
+        "latest_version": "A3.63.31.B9",
+        "file": "AP-MAX船主板_A36331B9.iap"
     },
     {
         "id": 6,
         "name": "GPS",
         "display": "GPS模块",
-        "latest_version": "A2.63.16.8C",
-        "file": null
+        "latest_version": "A3.63.16.8D",
+        "file": "M06_GPS板_A363168D.iap"
     },
     {
         "id": 7,
         "name": "Motor_L",
         "display": "左电调",
-        "latest_version": "A3.63.27.92",
-        "file": null
+        "latest_version": "A0.61.24.61",
+        "file": "BM_MD1有刷电调_A0612461.iap"
     },
     {
         "id": 8,
         "name": "Motor_R",
         "display": "右电调",
-        "latest_version": "A3.63.27.92",
-        "file": null
+        "latest_version": "A0.61.24.61",
+        "file": "BM_MD1有刷电调_A0612461.iap"
     },
     {
         "id": 9,
         "name": "Fan",
         "display": "风扇模块",
-        "latest_version": "A2.64.20.8A",
-        "file": "AP-MAX风扇板_A264208A.iap"
+        "latest_version": "A3.64.24.8C",
+        "file": "AP-MAX风扇板_A364248C.iap"
     }
 ]
 }
