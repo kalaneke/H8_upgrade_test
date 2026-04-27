@@ -1,154 +1,227 @@
-# H8 Upgrade Tool
+# 🚤 BOATMAN 升级工具 (H8UpgradeTool)
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
-[![PyQt](https://img.shields.io/badge/PyQt-6/5-green.svg)](https://www.qt.io/)
-[![Platform](https://img.shields.io/badge/Platform-Windows%207+-lightgrey.svg)](https://www.microsoft.com/windows/)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7B%2B-green.svg)](https://www.microsoft.com/windows)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-一款用于 H8 设备的 Windows 图形化升级工具，支持自动检测 U 盘、版本比对、从 GitHub 下载更新并完成一键升级。
+一款基于 Windows 的 **BOATMAN H8 设备固件升级工具**，通过 USB 驱动器自动检测、版本比对、云端下载，实现一键式固件升级。
+
+---
 
 ## ✨ 功能特性
 
-- 🔍 **自动设备检测** - 自动识别 H8 U 盘（约 256MB 可移动磁盘）
-- 📊 **版本管理** - 读取本地版本信息并与 GitHub 云端最新版本自动对比
-- ⬇️ **智能下载** - 从 GitHub Releases 下载最新升级包
-- 📦 **自动解压** - 自动解压升级包并复制到 U 盘目标目录
-- 🖥️ **友好界面** - 基于 PyQt 的现代化图形界面，实时显示升级进度
-- 🛡️ **安全可靠** - 完善的异常处理和错误重试机制
+- 🔍 **自动 U 盘检测** — 自动识别目标设备 U 盘（~256MB 可移动磁盘）
+- 📋 **本地版本解析** — 读取并解析 `IAP/ver_info.txt` 新格式版本信息
+- ☁️ **云端版本同步** — 从 GitHub 获取最新 `{Model}_Ver.json` 版本数据
+- ⏱️ **时间戳版本比对** — 基于版本号时间戳解码（年/月/日/时:分）逐模块比较
+- 📦 **一键升级** — 下载升级包 → 解压 → 智能复制（含 Res 目录清空重写）
+- 🖥️ **图形化界面** — 基于 PyQt 的直观 GUI，实时状态提示
+- 🛡️ **安全可靠** — 异常处理、失败重试、空间检测、写入保护
+
+## 📸 界面预览
+
+> （待补充截图）
+
+## 🏗️ 系统架构
+
+```
+┌─────────────────────────────────────────────┐
+│                  GUI 层 (gui.py)              │
+│           界面显示 / 用户操作 / 状态提示         │
+├─────────────────────────────────────────────┤
+│             版本管理层 (version_manager.py)    │
+│     本地/云端版本解析 / 时间戳解码 / 差异对比     │
+├─────────────────────────────────────────────┤
+│            GitHub 访问层 (github_client.py)    │
+│        {Model}_Ver.json 获取 / 升级包下载       │
+├─────────────────────────────────────────────┤
+│          文件与 U 盘管理层 (usb_manager.py)     │
+│      U盘检测 / 目录校验 / 文件复制 / Res处理     │
+├─────────────────────────────────────────────┤
+│             日志与异常层 (logger.py)           │
+│              操作记录 / 错误处理 / 重试逻辑       │
+└─────────────────────────────────────────────┘
+```
+
+## 📂 项目结构
+
+```
+H8UpgradeTool/
+├── README.md               # 项目说明文档
+├── PROJECT_PLAN.md         # 详细项目计划
+├── requirements.txt        # Python 依赖
+├── src/
+│   ├── __init__.py
+│   ├── main.py             # 程序入口
+│   ├── gui.py              # GUI 界面（PyQt）
+│   ├── usb_manager.py      # U 盘检测与管理
+│   ├── version_manager.py  # 版本解析与比对（含时间戳解码）
+│   ├── github_client.py    # GitHub API 客户端
+│   ├── upgrade_manager.py  # 升级执行引擎
+│   └── logger.py           # 日志管理
+└── resources/
+    ├── ui/
+    └── icons/
+```
 
 ## 🚀 快速开始
 
-### 系统要求
+### 环境要求
 
-- Windows 7 或更高版本
-- Python 3.8+
-- 约 50MB 磁盘空间
+- **操作系统**: Windows 7 及以上
+- **Python**: 3.8+
+- **网络**: 可访问 GitHub（用于获取版本信息和下载升级包）
 
-### 安装
-
-1. 克隆仓库到本地：
-
-```bash
-git clone https://github.com/yourusername/H8UpgradeTool.git
-cd H8UpgradeTool
-```
-
-2. 安装依赖：
+### 安装依赖
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. 运行程序：
+### 推荐依赖
+
+| 依赖 | 用途 |
+|------|------|
+| `PyQt6` 或 `PyQt5` | 图形用户界面 |
+| `requests` | HTTP 请求（GitHub 访问） |
+| `pywin32` | Windows 设备增强检测 |
+| `WMI` | Windows 硬件信息查询 |
+
+### 运行程序
 
 ```bash
-python src/main.py
+cd src
+python main.py
 ```
 
-## 📖 使用说明
+## 📖 核心模块说明
 
-1. **插入 H8 U 盘** - 将 H8 设备 U 盘插入电脑
-2. **启动程序** - 运行 `main.py` 启动升级工具
-3. **自动检测** - 程序会自动检测并识别 H8 U 盘
-4. **版本比对** - 查看本地版本与云端最新版本差异
-5. **开始升级** - 点击"开始升级"按钮，等待升级完成
+### 支持的固件模块
 
-## 🏗️ 项目结构
+| 序号 | 模块标识 | 显示名称 | 说明 |
+|------|----------|----------|------|
+| 1 | `RemoteControl` | 遥控器主板 | 遥控器主控固件 |
+| 2 | `Wireless_host` | 无线模块(主) | 主无线通信模块 |
+| 3 | `Wireless_slave` | 无线模块(从) | 从无线通信模块 |
+| 4 | `Sonar` | 声呐模块 | 水下声呐探测固件 |
+| 5 | `Boat` | 船控主板 | 船体主控制器 |
+| 6 | `GPS` | GPS 模块 | 定位导航模块 |
+| 7 | `Motor_L` | 电调(左) | 左侧电机电调 |
+| 8 | `Motor_R` | 电调(右) | 右侧电机电调 |
+| 9 | `Fan` | 风扇模块 | 散热风扇控制 |
 
-```
-H8UpgradeTool/
-├── README.md                 # 项目说明文档
-├── PROJECT_PLAN.md           # 项目计划文档
-├── requirements.txt          # Python 依赖列表
-├── src/
-│   ├── main.py              # 程序入口
-│   ├── app.py               # 应用主类
-│   ├── gui.py               # 图形界面模块
-│   ├── usb_manager.py       # U 盘管理模块
-│   ├── version_manager.py   # 版本管理模块
-│   ├── github_client.py     # GitHub 访问客户端
-│   ├── upgrade_manager.py   # 升级逻辑模块
-│   ├── logger.py            # 日志记录模块
-│   └── utils.py             # 工具函数
-└── resources/
-    ├── ui/                  # UI 资源文件
-    └── icons/               # 图标资源
-```
+### 版本号编解码规则
 
-## 🛠️ 技术栈
+版本号格式：**`XN.YY.DD.TT`**（如 `A3.64.21.6A`）
 
-- **开发语言**: Python 3.8+
-- **UI 框架**: PyQt6 / PyQt5
-- **HTTP 客户端**: requests
-- **版本控制**: Git
+| 字段 | 含义 | 示例值 | 解码结果 |
+|------|------|--------|----------|
+| `X` | 版本类型前缀 | `A` | - |
+| `N` | 版本序列号 | `3` | - |
+| `YY` | 年份+月份编码 | `64` | 6→2026年, 4→4月 |
+| `DD` | 日期 | `21` | 21日 |
+| `TT` | 时间编码(十六进制) | `6A` | 0x6A=106 → 10:36 |
 
-## 📝 版本信息格式
+> **YY 编码**: 十位=年份尾数, 个位=月份(1-9→1-9月, A→10月, B→11月, C→12月)
+>
+> **TT 编码**: `(小时×60 + 分钟) / 6`，结果转十六进制
 
-### 本地版本 (VER.DAT)
+### 升级流程
 
 ```
-P=H8-AP_MAX              # 产品名称
-T=2026-04-20T10:30:00Z   # 发布时间
-G=V0.0.0                 # 总版本号
-1=A3.64.18.B2            # 遥控器主板版本
-2=B1.64.20.A5            # 无线模块(主)版本
-4=A2.5A.12.1F            # 声呐模块版本
-5=C0.6C.05.2A            # 船控主板版本
-6=D5.61.30.0B            # GPS模块版本
-7=E2.64.22.3C            # 电调模块版本
-8=F1.63.10.1D            # 风扇模块版本
+插入U盘 → 检测设备 → 读取本地版本(ver_info.txt)
+    ↓
+获取云端版本({Model}_Ver.json) → 时间戳解码比对
+    ↓
+生成升级清单 → 下载升级包 → 解压到临时目录
+    ↓
+复制IAP文件到U盘(IAP/) → 清空并重写Res目录(Res/)
+    ↓
+更新ver_info.txt → 完成 ✅
 ```
 
-### 云端版本 (version.json)
+## ⚙️ 配置说明
+
+### 本地版本文件 (`IAP/ver_info.txt`)
+
+```
+Model:H8
+Version:
+RemoteControl: A3.64.21.6A
+Wireless_host: A0.63.13.9C
+Wireless_slave: A0.63.13.9C
+Sonar: A3.64.16.A5
+Boat: A0.64.16.66
+GPS: A2.63.16.8C
+Motor_L: A0.61.24.61
+Motor_R: A0.61.24.61
+Fan: A2.63.07.6F
+```
+
+### 云端版本文件 (`{Model}_Ver.json`)
 
 ```json
 {
-  "product": "H8-AP_MAX",
+  "Model": "H8",
   "release_time": "2026-04-20T10:30:00Z",
   "G_version": "V0.0.1",
   "G_resources": {
-    "size": "12345678",
-    "url": "https://github.com/.../v2.2.0.zip"
+    "name": "V0.0.1-H8.zip",
+    "size": "4.85Mb",
+    "url": "https://github.com/kalaneke/H8_upgrade_test/releases/tag/V0.0.1-H8-AP_MAX"
   },
   "IAP_modules": [
     {
       "id": 1,
-      "name": "remote_control",
+      "name": "RemoteControl",
       "display": "遥控器主板",
-      "version": "A3.63.25.A1",
-      "file": "H8显示屏_A36325A1(all).iap"
+      "latest_version": "A3.64.21.6A",
+      "file": "H8显示屏_A364216A(all).iap"
     }
   ]
 }
 ```
 
-## 🔧 开发计划
+## ✅ 验收标准
 
-- [x] 项目规划与设计
-- [ ] U 盘自动检测模块
-- [ ] 本地版本解析模块
-- [ ] 云端版本获取模块
-- [ ] 版本比对逻辑
-- [ ] 下载与解压模块
-- [ ] 文件复制与升级模块
-- [ ] 图形界面开发
-- [ ] 异常处理与日志
-- [ ] 测试与发布
+- [x] 能成功检测到插入的目标 U 盘（~256MB 可移动磁盘）
+- [x] 能正确读取并解析 `IAP/ver_info.txt` 新格式
+- [x] 能正确获取并解析 `{Model}_Ver.json` 云端版本
+- [x] 版本号时间戳解码正确（年/月/日/时:分）
+- [x] 基于时间戳的版本比较结果正确
+- [x] 可下载升级包并将文件写入 U 盘
+- [x] Res 目录能正确清空并从压缩包复制
+- [x] 升级完成后 ver_info.txt 正确更新
+- [x] 升级过程中能提示网络/空间/写入异常
 
-## ⚠️ 注意事项
+## 🛡️ 安全机制
 
-1. 升级前请确保 U 盘已正确插入并被识别
-2. 升级过程中请勿拔出 U 盘
-3. 确保网络连接稳定以正常下载升级包
-4. 建议在升级前备份重要数据
+- **Res 目录保护**: 采用「先清空后复制」策略，避免残留旧文件
+- **格式规范保证**: `ver_info.txt` 写入严格遵循固定格式和模块顺序
+- **网络异常处理**: 完善的超时、重试和用户取消机制
+- **空间预检**: 升级前检查 U 盘剩余空间是否充足
+- **非破坏性操作**: 不直接删除用户数据，所有操作可追溯
 
-## 🤝 贡献
+## 📝 开发日志
 
-欢迎提交 Issue 和 Pull Request 来改进这个项目。
+| 日期 | 内容 | 状态 |
+|------|------|------|
+| 2026-04-21 | 新建 Python 项目，创建 `src/` 目录结构 | ✅ |
+| 2026-04-21 | 重写 `version_manager.py`：新格式解析 + 时间戳解码 + 模块化比较 | ✅ |
+| 2026-04-21 | 更新 `usb_manager.py`：版本文件路径改为 ver_info.txt | ✅ |
+| 2026-04-21 | 更新 `upgrade_manager.py`：Res 目录清空重写 + ver_info.txt 写入 | ✅ |
+| 2026-04-21 | 更新 `gui.py`：适配 `{Model}_Ver.json` 命名 + 新版显示 | ✅ |
 
 ## 📄 许可证
 
-本项目采用 [MIT](LICENSE) 许可证。
+MIT License
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
 
 ---
 
-<p align="center">Made with ❤️ for H8 Device Users</p>
+<p align="center">
+  <strong>BOATMAN 升级工具</strong> · 让固件升级更简单
+</p>
